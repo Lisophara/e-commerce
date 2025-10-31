@@ -27,6 +27,8 @@ return new class extends Migration
             $table->index(['first_name', 'last_name']);
             $table->index('phone');
 
+            $table->dateTime('last_login_at')->nullable();
+
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();
