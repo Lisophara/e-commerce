@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use BezhanSalleh\LanguageSwitch\LanguageSwitch;
 use Filament\Forms\Components\Builder;
 use Illuminate\Support\ServiceProvider;

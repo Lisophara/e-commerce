@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class File extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
         'name',
         'mime',
@@ -14,9 +15,7 @@ class File extends Model
         'path',
         'size',
         'type',
-        'checksum_sha256',
         'user_id',
-        'is_success_uploaded',
     ];
 
     protected function casts()

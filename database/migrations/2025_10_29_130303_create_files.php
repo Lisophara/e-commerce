@@ -26,9 +26,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')
                 ->on('users')->onDelete('cascade');
 
-            $table->string('checksum_sha256', 64)->nullable();
-            $table->boolean('is_success_uploaded')->default(false);
-            $table->timestamps();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

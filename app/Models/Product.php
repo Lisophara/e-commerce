@@ -17,6 +17,7 @@ class Product extends Model
         'code',
         'price',
         'stock',
+        'published',
     ];
 
     protected function casts() : array
@@ -48,5 +49,14 @@ class Product extends Model
         return $this->hasOne(DiscountProduct::class)
             ->whereActive()
             ->whereActiveRange();
+     }
+
+     public function getImagesAttribute() : array {
+        $files = $this->belongsToMany(File::class, 'product_images', 'file_id', 'id');
+        $images = [];
+        foreach ($files as $file) {
+            $images[] = $file->path;
+        }
+        return $images;
      }
 }

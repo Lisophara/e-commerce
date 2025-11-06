@@ -22,6 +22,8 @@ return new class extends Migration
 
             $table->unique(['store_id', 'code']);
 
+            $table->boolean('published')->default(true);
+
             $table->decimal('price')->default(0);
             $table->integer('stock')->default(0);
             $table->timestamps();
