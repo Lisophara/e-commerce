@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -57,16 +58,13 @@ class User extends Authenticatable
             'day_of_birth' => 'date',
             'type' => 'string',
             'last_login_at' => 'datetime',
+            'name' => 'string'
         ];
     }
 
-    protected function getNameAttribute(): Attribute
+    protected function getNameAttribute(): string
     {
-        return Attribute::make(
-            get: function ($value, $attribute) {
-                return $attribute['first_name'] . ' ' . $attribute['last_name'];
-            }
-        );
+        return Str::trim($this->first_name . ' ' . $this->last_name);
     }
 
     public function carts(): HasMany {
