@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Products\Schemas;
 use App\Filament\ComponentHelper;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Group;
@@ -19,6 +20,9 @@ class ProductForm
             ->components([
                 Section::make(__('product.section.details'))
                     ->schema([
+                        Hidden::make('store_id')->afterStateHydrated(function ($component, $state) {
+                            $component->state('1');
+                        }),
                         TextInput::make('title')
                             ->label(__('product.title'))
                             ->maxLength(255)
@@ -46,6 +50,14 @@ class ProductForm
                         ComponentHelper::fileUpload('images')
                             ->label(__('product.image'))
                             ->multiple()
+                            ->acceptedFileTypes(
+                                [
+                                    'image/png',
+                                    'image/jpg',
+                                    'image/jpeg',
+                                    'video/mp4'
+                                ]
+                            )
                             ->required(),
                     ])
                     ->collapsible()

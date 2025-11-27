@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('name_slug')->unique();
             $table->string('address')->nullable();
 
-            $table->unsignedBigInteger('users_id');
-            $table->foreign('users_id')->references('id')->on('users')
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade');
             $table->uuid('profile')->nullable();
             $table->foreign('profile')->references('id')->on('files')
