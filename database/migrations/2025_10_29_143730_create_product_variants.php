@@ -11,21 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_metadata', function (Blueprint $table) {
+        Schema::create('product_variants', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
 
-            $table->string('group_slug');
-            $table->string('label');
-            $table->string('label_slug');
+            $table->string('color');
+            $table->unique(['product_id', 'color']);
 
-            $table->unique(['product_id', 'group_slug']);
-            $table->unique(['product_id', 'label_slug']);
-
-            // type: select, checkbox, radio
-            $table->string('type', 16);
+            $table->json('size')->nullable();
 
             $table->timestamps();
         });
