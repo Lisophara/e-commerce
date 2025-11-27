@@ -11,6 +11,7 @@ class ProductVariant extends Model
         'product_id',
         'color',
         'size',
+        'image'
     ];
 
     protected function casts()

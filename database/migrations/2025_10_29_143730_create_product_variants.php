@@ -22,6 +22,8 @@ return new class extends Migration
 
             $table->json('size')->nullable();
 
+            $table->string('image')->nullable();
+
             $table->timestamps();
         });
     }
