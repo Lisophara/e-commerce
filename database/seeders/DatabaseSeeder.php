@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -12,17 +13,19 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     * @throws \Throwable
      */
     public function run(): void
     {
-        $seeders = [
-            UserSeeder::class,
-            StoreSeeder::class,
-        ];
-
-        foreach ($seeders as $seeder) {
-            $object = new $seeder();
-            $object->run();
+        DB::beginTransaction();
+        try {
+            $this->call([
+                UserSeeder::class,
+                StoreSeeder::class,
+            ]);
+            DB::commit();
+        } catch (\Throwable $e) {
+            DB::rollBack();
         }
     }
 }

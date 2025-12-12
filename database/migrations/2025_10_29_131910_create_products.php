@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->text('remark')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('store_id');
             $table->foreign('store_id')->references('id')->on('stores')
@@ -24,8 +25,14 @@ return new class extends Migration
 
             $table->boolean('published')->default(true);
 
+            $table->text('images');
+
             $table->decimal('price')->default(0);
-            $table->integer('stock')->default(0);
+            $table->integer('quantity')->default(0);
+
+            $table->unsignedBigInteger('created_by');
+            $table->foreign('created_by')->references('id')->on('users')
+                ->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -10,14 +10,16 @@ class ProductVariant extends Model
     protected $fillable = [
         'product_id',
         'color',
-        'size',
+        'sizes',
+        'quantity',
         'image'
     ];
 
     protected function casts()
     {
         return [
-            'size' => 'array'
+            'sizes' => 'array',
+            'quantity' => 'integer',
         ];
     }
 

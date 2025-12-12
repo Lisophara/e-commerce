@@ -15,17 +15,15 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('name_slug')->unique();
-            $table->string('address')->nullable();
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade');
-            $table->uuid('profile')->nullable();
-            $table->foreign('profile')->references('id')->on('files')
-                ->onUpdate('cascade')->onDelete('no action');
-            $table->uuid('cover')->nullable();
-            $table->foreign('cover')->references('id')->on('files')
-                ->onUpdate('cascade')->onDelete('no action');
+
+            $table->string('profile')->nullable();
+            $table->string('cover')->nullable();
 
             $table->string('contact')->nullable();
             $table->string('fb_link')->nullable();

@@ -18,7 +18,6 @@ class StoreSeeder extends Seeder
         Store::create([
             'name' => 'AdminStore',
             'name_slug' => 'admin-store',
-            'address' => null,
             'user_id' => $admin->id
         ]);
     }

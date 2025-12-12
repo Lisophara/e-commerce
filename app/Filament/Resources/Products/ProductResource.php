@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Products;
 
+use App\Enum\UserType;
 use App\Filament\Resources\Products\Pages\CreateProduct;
 use App\Filament\Resources\Products\Pages\EditProduct;
 use App\Filament\Resources\Products\Pages\ListProducts;
@@ -14,6 +15,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class ProductResource extends Resource
 {
@@ -21,9 +23,17 @@ class ProductResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::InboxStack;
 
-    protected static ?string $recordTitleAttribute = 'Product';
+    public static function getNavigationGroup(): string|UnitEnum|null
+    {
+        return __('messages.group.product');
+    }
 
-    public static function getNavigationLabel(): string
+    public static function getModelLabel(): string
+    {
+        return __('messages.product');
+    }
+
+    public static function getRecordTitleAttribute(): ?string
     {
         return __('messages.product');
     }
@@ -53,4 +63,9 @@ class ProductResource extends Resource
             'edit' => EditProduct::route('/{record}/edit'),
         ];
     }
+
+//    public static function canAccess(): bool
+//    {
+//        return auth()->check() && in_array(auth()->getUser()->type, [UserType::ADMIN, UserType::MERCHANT]);
+//    }
 }

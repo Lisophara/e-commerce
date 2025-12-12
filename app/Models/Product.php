@@ -12,12 +12,15 @@ class Product extends Model
 {
     protected $fillable = [
         'title',
+        'remark',
         'description',
         'store_id',
         'code',
         'price',
-        'stock',
+        'quantity',
+        'images',
         'published',
+        'created_by',
     ];
 
     protected function casts() : array
@@ -25,7 +28,8 @@ class Product extends Model
         return [
             'store_id' => 'int',
             'price' => 'real',
-            'stock' => 'integer',
+            'quantity' => 'integer',
+            'images' => 'array',
         ];
     }
 
@@ -34,7 +38,7 @@ class Product extends Model
      }
 
      public function categories() : BelongsToMany {
-        return $this->belongsToMany(Category::class);
+        return $this->belongsToMany(Category::class, 'product_categories');
      }
 
      public function reviews() : HasMany {
@@ -49,15 +53,6 @@ class Product extends Model
         return $this->hasOne(DiscountProduct::class)
             ->whereActive()
             ->whereActiveRange();
-     }
-
-     public function getImagesAttribute() : array {
-        $files = $this->belongsToMany(File::class, 'product_images', 'file_id', 'id');
-        $images = [];
-        foreach ($files as $file) {
-            $images[] = $file->path;
-        }
-        return $images;
      }
 
      public function variants() : HasMany

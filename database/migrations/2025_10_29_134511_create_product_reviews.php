@@ -20,6 +20,12 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')
                 ->onDelete('cascade');
 
+            $table->text('images')->nullable();
+
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->foreign('parent_id')->references('id')->on('product_reviews')
+                ->onDelete('cascade');
+
             $table->text('description');
             $table->timestamps();
         });

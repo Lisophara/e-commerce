@@ -20,7 +20,8 @@ return new class extends Migration
             $table->string('color');
             $table->unique(['product_id', 'color']);
 
-            $table->json('size')->nullable();
+            $table->json('sizes')->nullable();
+            $table->integer('quantity')->default(-1);
 
             $table->string('image')->nullable();
 

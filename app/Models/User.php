@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enum\UserType;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -56,7 +57,7 @@ class User extends Authenticatable
             'active' => 'boolean',
             'gender' => 'string',
             'day_of_birth' => 'date',
-            'type' => 'string',
+            'type' => UserType::class,
             'last_login_at' => 'datetime',
             'name' => 'string'
         ];

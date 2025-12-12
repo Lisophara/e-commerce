@@ -24,6 +24,8 @@ return new class extends Migration
             $table->boolean('active')->default(true);
             $table->date('day_of_birth')->nullable();
 
+            $table->string('profile')->nullable();
+
             $table->index(['first_name', 'last_name']);
             $table->index('phone');
 
