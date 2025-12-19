@@ -8,7 +8,6 @@ use App\Filament\Resources\ProductCategories\Pages\ListProductCategories;
 use App\Filament\Resources\ProductCategories\Schemas\ProductCategoryForm;
 use App\Filament\Resources\ProductCategories\Tables\ProductCategoriesTable;
 use App\Models\Category;
-use App\Models\ProductCategory;
 use BackedEnum;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;

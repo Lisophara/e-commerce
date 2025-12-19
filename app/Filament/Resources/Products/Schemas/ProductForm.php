@@ -4,6 +4,7 @@ namespace App\Filament\Resources\Products\Schemas;
 
 use App\Filament\ComponentHelper;
 use App\Models\Category;
+use App\Services\CategoryService;
 use App\Services\UserServices;
 use App\Utils;
 use Filament\Forms\Components\Checkbox;
@@ -60,19 +61,7 @@ class ProductForm
                             Select::make('categories')
                                 ->label(__('messages.category'))
                                 ->relationship('categories', 'name')
-                                ->options(function () {
-                                    $cacheKey = 'product.categories';
-                                    if (Utils::hasCache($cacheKey)) {
-                                        return Utils::getCache($cacheKey)->pluck(function ($category) {
-                                            return empty($category->label) ? $category->name : $category->label;
-                                        }, 'id');
-                                    }
-                                    $categories = Category::all();
-                                    Utils::putCache($cacheKey, $categories);
-                                    return $categories->pluck(function ($category) {
-                                        return empty($category->label) ? $category->name : $category->label;
-                                    }, 'id');
-                                })
+                                ->options(CategoryService::getCategoriesForSelect())
                                 ->multiple()
                                 ->searchable()
                                 ->columnSpanFull(),

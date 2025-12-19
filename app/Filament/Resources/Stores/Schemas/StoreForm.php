@@ -14,7 +14,6 @@ class StoreForm
 {
     public static function configure(Schema $schema): Schema
     {
-
         return $schema
             ->components([
                 Section::make()
@@ -22,27 +21,32 @@ class StoreForm
                         TextInput::make('name')
                             ->required(),
                         Select::make('user_id')
+                            ->label(__('store.username'))
                             ->searchable()
                             ->options(UserServices::getUsers()->pluck(fn ($array) => UserServices::getUserName($array), 'id'))
-                            ->default(fn ($record) => $record->user_id)
                             ->required(),
                         TextInput::make('lat')
                             ->numeric(),
                         TextInput::make('long')
                             ->numeric(),
-                        TextInput::make('contact'),
+                        TextInput::make('contact')
+                            ->label(__('messages.contact')),
                         ComponentHelper::link('fb_link', '#*.?facebook.com$#')
+                            ->label('Facebook link')
                             ->columnSpanFull(),
                         ComponentHelper::link('ig_link')
+                            ->label('Instagram link')
                             ->columnSpanFull(),
                         ComponentHelper::link('tlg_link')
+                            ->label('Telegram link')
                             ->columnSpanFull(),
                         ComponentHelper::link('twitter_link')
+                            ->label('Twitter link')
                             ->columnSpanFull(),
                     ])
                     ->columns(2)
                     ->columnSpan(2),
-                \Filament\Schemas\Components\Group::make()
+                Section::make()
                     ->schema([
                         ComponentHelper::fileUpload('profile'),
                         ComponentHelper::fileUpload('cover'),

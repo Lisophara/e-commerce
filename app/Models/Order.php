@@ -4,31 +4,30 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Order extends Model
 {
+    public $timestamps = false;
     protected $fillable = [
-        'product_id',
         'user_id',
-        'product_metadata',
-        'quantity',
-        'price'
+        'username',
+        'address',
+        'additional'
     ];
 
     protected function casts(): array
     {
         return [
-            'product_metadata' => 'json',
-            'quantity' => 'integer',
-            'price' => 'real'
+            'additional' => 'json',
         ];
-    }
-
-    public function product() : BelongsTo {
-        return $this->belongsTo(Product::class);
     }
 
     public function user() : BelongsTo {
         return $this->belongsTo(User::class);
+    }
+
+    public function orderItems() : HasMany {
+        return $this->hasMany(ProductOrder::class);
     }
 }

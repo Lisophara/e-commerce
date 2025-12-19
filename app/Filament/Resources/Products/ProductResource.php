@@ -63,9 +63,4 @@ class ProductResource extends Resource
             'edit' => EditProduct::route('/{record}/edit'),
         ];
     }
-
-//    public static function canAccess(): bool
-//    {
-//        return auth()->check() && in_array(auth()->getUser()->type, [UserType::ADMIN, UserType::MERCHANT]);
-//    }
 }

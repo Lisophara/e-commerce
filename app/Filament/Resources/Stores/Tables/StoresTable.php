@@ -2,12 +2,15 @@
 
 namespace App\Filament\Resources\Stores\Tables;
 
+use App\Enum\UserType;
 use App\Filament\ComponentHelper;
+use App\Services\UserServices;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class StoresTable
 {
@@ -33,22 +36,22 @@ class StoresTable
                     ->copyable()
                     ->searchable(),
                 TextColumn::make('fb_link')
-                    ->label(__('store.facebook') ?? 'Facebook')
+                    ->label(__('messages.facebook'))
                     ->url(fn ($record) => $record->fb_link, true)
                     ->limit(15)
                     ->searchable(),
                 TextColumn::make('ig_link')
-                    ->label(__('store.instagram') ?? 'Instagram')
+                    ->label(__('messages.instagram'))
                     ->url(fn ($record) => $record->ig_link, true)
                     ->limit(15)
                     ->searchable(),
                 TextColumn::make('tlg_link')
-                    ->label(__('store.telegram') ?? 'Telegram')
+                    ->label(__('messages.telegram'))
                     ->url(fn ($record) => $record->tlg_link, true)
                     ->limit(15)
                     ->searchable(),
                 TextColumn::make('twitter_link')
-                    ->label(__('store.twitter') ?? 'Twitter')
+                    ->label(__('messages.twitter'))
                     ->url(fn ($record) => $record->twitter_link, true)
                     ->limit(15)
                     ->searchable(),
@@ -63,6 +66,12 @@ class StoresTable
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->recordUrl(null)
+            ->modifyQueryUsing(function (Builder $query) {
+                if (auth()->user()->type !== UserType::ADMIN) {
+                    $query->whereIn('id', UserServices::getCurrentUserStore()->pluck('id'));
+                }
+            });
     }
 }

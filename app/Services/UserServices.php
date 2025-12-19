@@ -17,33 +17,30 @@ final class UserServices
         if (is_int($user)) {
             $user = User::find($user);
         }
-        $cacheKey = 'user.' . $user->id . '.store';
-
-        if (Utils::hasCache($cacheKey)) {
-            return Utils::getCache($cacheKey);
-        }
-
-        if ($user->type === UserType::ADMIN) {
-            $stores = Store::all();
-        } else {
-            $stores = Store::where('user_id', $user->id)->get();
-        }
-        Utils::putCache($cacheKey, $stores);
-        return $stores;
+        return Utils::cache('user.' . $user->id . '.store', fn () => $user->type === UserType::ADMIN ?
+            Store::all() :
+            Store::where('user_id', $user->id)->get());
     }
 
     public static function getCurrentUserStore() : Collection {
         return self::getUserStores(auth()->user());
     }
 
-    public static function getUsers() {
-        $cacheKey = 'users';
-        if (Utils::hasCache($cacheKey)) {
-            return Utils::getCache($cacheKey);
+    public static function getUserByType(UserType|array $type) {
+        if (is_array($type)) {
+            $type = array_map(function (UserType $t) {
+                return $t->value;
+            }, $type);
+            $types = implode(',', $type);
+        } else {
+            $types = $type->value;
+            $type = [$type->value];
         }
-        $users = User::all();
-        Utils::putCache($cacheKey, $users);
-        return $users;
+        return Utils::cache($types . '.users', fn () => User::whereIn('type', $type)->get());
+    }
+
+    public static function getUsers() {
+        return Utils::cache('users', fn () => User::all());
     }
 
     public static function getUserName(array|Collection|Model $user) : string {

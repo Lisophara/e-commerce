@@ -41,4 +41,13 @@ final class Utils
     public static function hasCache($key): bool {
         return Cache::has($key);
     }
+
+    public static function cache(string $key, \Closure|null $value = null, $default = null) {
+        if (self::hasCache($key) || $value === null) {
+            return self::getCache($key, $default);
+        }
+        $v = $value();
+        self::putCache($key, $v);
+        return $v;
+    }
 }
